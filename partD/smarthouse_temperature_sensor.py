@@ -45,6 +45,13 @@ class Sensor:
 
         # create and start thread simulating physical temperature sensor
 
+        # Lage løkke som simulerer temperatursensoren og
+        #kode
+        # Lage løkke som kontinuerlig oppdaterer temperaturen til skytenesten.
+        logging.info("Starter tempsensor thread")
+        #tempsensor_thread = threading.Thread()
+        #tempsensor_thread.start()
+        
         # create and start thread sending temperature to the cloud service
 
         # TODO: END

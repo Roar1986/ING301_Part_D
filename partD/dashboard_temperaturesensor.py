@@ -18,7 +18,7 @@ def refresh_btn_cmd(temp_widget, did):
 
 
     # replace statement below with measurement from response
-    sensor_measurement = SensorMeasurement(init_value="-273.15")
+    sensor_measurement = SensorMeasurement(init_value="-69")
 
     # TODO: END
 

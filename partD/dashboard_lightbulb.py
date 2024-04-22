@@ -6,6 +6,12 @@ import requests
 from messaging import ActuatorState
 import common
 
+
+def refresh_btn_cmd():
+    #laget av vegard
+    #denne metoden kalles når brukeren trykker på refresh knappen
+    pass
+
 #Denne styrerer on/off toggle knapp lightbulb
 #Denne metoden må vi gjøre ferdig
 

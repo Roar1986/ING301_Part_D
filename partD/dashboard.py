@@ -1,4 +1,4 @@
-import tkinter as tk # https://www.pythontutorial.net/tkinter/
+ # https://www.pythontutorial.net/tkinter/
 #Når denna filen kjører, skal gui dukke opp, bruker tkinter for å lage dette.
 #Oppgava går ut på å lage en dashboard klient og en smarthous applikasjon
 #Følgende skal implementeres, dashboard_lightbulb.py
@@ -6,7 +6,7 @@ import tkinter as tk # https://www.pythontutorial.net/tkinter/
 #Messaging.py har metoder som kan brukes for å konstruere body/payload i de request som skal sendes til skytenesten
 
 import logging
-
+import tkinter as tk
 from dashboard_lightbulb import init_lightbulb
 from dashboard_temperaturesensor import init_temperature_sensor
 
