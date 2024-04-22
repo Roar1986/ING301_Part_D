@@ -3,24 +3,33 @@ from tkinter import ttk
 
 import logging
 import requests
+import json
 
 from messaging import SensorMeasurement
 import common
 
+import requests
 
 def refresh_btn_cmd(temp_widget, did):
     #Denne metoden skal vi utføre
     
-    logging.info("Temperature refresh")
+    logging.info("Temperature refresh")    
+    
+    uuid = common.TEMPERATURE_SENSOR_DID
+    url = f"http://127.0.0.1:8000/smarthouse/sensor/{uuid}/current"
 
-    # TODO: START
-    # send request to cloud service to obtain current temperature
+    # Henter data basert på url og sensor ID
+    response = requests.get(url)
+    # Går gjennom respons og gjer den om til ei ordliste
+    data = response.json()
 
+    # Henter ut verdiar som ligg i ordlista med nøkkelen 'value'
+    sensor_value = str(data['value'])
 
     # replace statement below with measurement from response
-    sensor_measurement = SensorMeasurement(init_value="-69")
-
-    # TODO: END
+    # sensor_measurement = SensorMeasurement(init_value="-69")
+    # oppdaterer sensor måling, ved bruk av classen SensorMeasurment
+    sensor_measurement = SensorMeasurement(init_value=sensor_value)
 
     # update the text field in the user interface
     temp_widget['state'] = 'normal' # to allow text to be changed
