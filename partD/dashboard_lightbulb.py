@@ -6,6 +6,8 @@ import requests
 from messaging import ActuatorState
 import common
 
+#Denne styrerer on/off toggle knapp lightbulb
+#Denne metoden må vi gjøre ferdig
 
 def lightbulb_cmd(state, did):
 
@@ -15,7 +17,7 @@ def lightbulb_cmd(state, did):
 
     # TODO: START
     # send HTTP request with new actuator state to cloud service
-
+    # Sender den nye tilstand til skytenesten
 
     # TODO: END
 

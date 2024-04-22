@@ -10,6 +10,8 @@ logging.basicConfig(format=log_format, level=logging.INFO, datefmt="%H:%M:%S")
 
 # https://realpython.com/intro-to-python-threading/
 
+
+
 sensor = Sensor(common.TEMPERATURE_SENSOR_DID)
 sensor.run()
 

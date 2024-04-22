@@ -9,11 +9,13 @@ import common
 
 
 def refresh_btn_cmd(temp_widget, did):
-
+    #Denne metoden skal vi utføre
+    
     logging.info("Temperature refresh")
 
     # TODO: START
     # send request to cloud service to obtain current temperature
+
 
     # replace statement below with measurement from response
     sensor_measurement = SensorMeasurement(init_value="-273.15")

@@ -28,6 +28,8 @@ class Actuator:
         logging.info(f"Actuator Client {self.did} starting")
 
         # TODO: START
+        #Skal intragere med skytenesten
+        
         # send request to cloud service with regular intervals and
         # set state of actuator according to the received response
 

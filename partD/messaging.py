@@ -3,7 +3,7 @@ import datetime
 
 
 class SensorMeasurement:
-
+    # Mulig vi må ha noen tilpassinger her
     def __init__(self, init_value):
         self.timestamp = str(datetime.datetime.now().isoformat())
         self.value = init_value
@@ -34,7 +34,7 @@ class SensorMeasurement:
 
 
 class ActuatorState:
-
+    # Mulig vi må ha noen tilpassinger her
     def __init__(self, init_state):
         self.state = init_state
 
