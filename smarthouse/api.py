@@ -21,6 +21,14 @@ repo = setup_database()
 
 smarthouse = repo.load_smarthouse_deep()
 
+# TIL INFO
+# Commando for å køyre skytjeneste
+# .venv\Scripts\activate.bat
+# uvicorn smarthouse.api:app --reload
+# Web applikasjon : http://127.0.0.1:8000
+# Demoside : http://127.0.0.1:8000/docs
+
+
 # Data Transfer Object definitions below
 class SmartHouseInfo(BaseModel):
     no_rooms: int
