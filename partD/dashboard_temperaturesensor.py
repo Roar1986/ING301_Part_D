@@ -37,6 +37,8 @@ def refresh_btn_cmd(temp_widget, did):
     temp_widget.insert(1.0, sensor_measurement.value)
     temp_widget['state'] = 'disabled'
 
+    print(f"Siste temperatur er : {sensor_value}")
+
 
 def init_temperature_sensor(container, did):
 

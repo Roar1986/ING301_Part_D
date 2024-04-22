@@ -32,32 +32,27 @@ def lightbulb_cmd(state, did):
     # Henter ut verdiar som ligg i ordlista med nøkkelen 'state'
     sensor_value = str(data['state'])
 
-    print(data)
-    print(sensor_value)
-
-    # Logikk før og skru va og på lys pæra. Put in commando her!
-    if sensor_value == "off" and new_state == "On":
-        print("No må denna sensoren gå PÅ for pokkeren")
-        # Make the PUT request to update the state
-        new_data = {"state": "off"}
+    # Logikk før og skru va og på lys pæra.
+    # Om den nye ønska tilstand er ON
+    if new_state == "On":
+        new_data = {"state": "running"}
         Cmd_To_Actuator = requests.put(Puturl, json=new_data)
-        
-        print(Cmd_To_Actuator.status_code, Cmd_To_Actuator.text)
+
+        # Sjekk av tilbakemelding
+        # print(Cmd_To_Actuator.status_code, Cmd_To_Actuator.text)
+        print(f"HTTP Status code: {Cmd_To_Actuator.status_code}\n Repsons Body : {Cmd_To_Actuator.text}")
     
-    if sensor_value == "on" and new_state == "Off":
-        print("Skrudd av, kjøh")
-        print("No må denna sensoren gå PÅ for pokkeren")
-        # Make the PUT request to update the state
-        Cmd_To_Actuator = requests.put(Puturl, json=new_state)
-        print(Cmd_To_Actuator.status_code, Cmd_To_Actuator.text)
+    # Om den nye ønska tilstanden er off
+    if new_state == "Off":
+        new_data = {"state": "off"} # oppdaterer ny tilstand til OFF
+        Cmd_To_Actuator = requests.put(Puturl, json=new_data) # 
 
+        # Sjekk av tilbakemelding
+        # print(Cmd_To_Actuator.status_code, Cmd_To_Actuator.text)
+        print(f"HTTP Status code: {Cmd_To_Actuator.status_code}\n Repsons Body : {Cmd_To_Actuator.text}")
+   
     logging.info(f"Dashboard: {new_state}")
-
-    # TODO: START
-    # send HTTP request with new actuator state to cloud service
-    # Sender den nye tilstand til skytenesten
-
-    # TODO: END
+    
 
 
 def init_lightbulb(container, did):
