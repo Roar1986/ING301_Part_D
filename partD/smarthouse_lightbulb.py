@@ -2,6 +2,7 @@ import logging
 import threading
 import time
 import requests
+from threading import Thread
 
 from messaging import ActuatorState
 import common
@@ -12,6 +13,7 @@ class Actuator:
     def __init__(self, did):
         self.did = did
         self.state = ActuatorState('False')
+        self.lock = threading.Lock()
 
     def simulator(self):
 
@@ -27,26 +29,28 @@ class Actuator:
 
         while True:
             self.lock.acquire() #Låser koden
-            logging.info(f"Actuator Client {self.did} starting")
-
+            logging.info(f"Actuator Client {self.did} starting") # Logg tekst til terminal
+            
+            # Url til smarthouse, der ein finn aktuell actuator state
             Geturl = f"http://127.0.0.1:8000/smarthouse/actuator/{self.did}/current"
             
+            # Responsen ein får frå webserveren
             response = requests.get(Geturl)
 
             # Går gjennom respons og gjer den om til ei ordliste
             data = response.json()
-            print(f"HTTP Status code: {data.status_code}\n Repsons Body : {data.text}")
 
             # Henter ut verdiar som ligg i ordlista med nøkkelen 'state'
             sensor_value = str(data['state'])
-
-            self.state = sensor_value
+            
+            # Oppdaterer staten, slik at client metoden kan hente den siste oppdaterete aktuator status
+            self.state = ActuatorState(sensor_value)
+            print(f"New State Value: {self.state.state}")
 
             logging.info(f"Client {self.did} finishing")
+            
+            time.sleep(common.LIGHTBULB_CLIENT_SLEEP_TIME) # Sovetid for tråden.
             self.lock.release() #Låser opp koden   
-            time.sleep(common.LIGHTBULB_CLIENT_SLEEP_TIME)
-
-            # TODO: END
 
     def run(self):
 
