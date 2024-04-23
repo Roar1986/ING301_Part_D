@@ -2,6 +2,8 @@ import logging
 import threading
 import time
 import requests
+import threading
+from threading import Thread
 
 from messaging import ActuatorState
 import common
@@ -12,7 +14,8 @@ class Actuator:
     def __init__(self, did):
         self.did = did
         self.state = ActuatorState('False')
-
+        self.lock = threading.Lock()
+        
     def simulator(self):
 
         logging.info(f"Actuator {self.did} starting")
@@ -31,7 +34,7 @@ class Actuator:
 
             # TODO: START
             #Skal intragere med skytenesten    
-        
+
 
             logging.info(f"Client {self.did} finishing")
             self.lock.release() #Låser opp koden   
