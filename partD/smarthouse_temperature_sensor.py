@@ -3,6 +3,7 @@ import threading
 import time
 import math
 import requests
+from datetime import datetime
 
 from messaging import SensorMeasurement
 import common
@@ -31,13 +32,31 @@ class Sensor:
     def client(self):
 
         logging.info(f"Sensor Client {self.did} starting")
+       
+        while True:
+            
+            # Url der sensor verdi skal oppdaterast
+            PostUrl = f"http://127.0.0.1:8000/smarthouse/sensor/{self.did}/current"
 
-        # TODO: START
-        # send temperature to the cloud service with regular intervals
+            timestamp = datetime.now().isoformat() # Leser av aktuell tid
+            value = self.measurement.get_temperature()  # Genererer ein temeratur
+            unit = "%" # Oppdaterer unit
+            
+            # Dataformat til post
+            data = {
+            "timestamp": timestamp,
+            "value": value,
+            "unit": unit
+            }
 
-        logging.info(f"Client {self.did} finishing")
+            # Sender request til webserver
+            UpdateTemp = requests.post(PostUrl, json=data)
 
-        # TODO: END
+            print(f"HTTP Status code: {UpdateTemp.status_code}\n Repsons Body : {UpdateTemp.text}")
+            
+            time.sleep(common.TEMPERATURE_SENSOR_SIMULATOR_SLEEP_TIME)
+            
+            logging.info(f"Client {self.did} finishing")
 
     def run(self):
 
@@ -49,11 +68,11 @@ class Sensor:
         # Lage løkke som simulerer temperatursensoren og        
         # Lage løkke som kontinuerlig oppdaterer temperaturen til skytenesten.
         logging.info("Starter tempsensor_simulator thread")
-        tempsensor_thread_simulator = threading.Thread(target=Sensor.simulator(self))
+        tempsensor_thread_simulator = threading.Thread(target=self.simulator)
         logging.info("Starter tempsensor_client thread")
-        tempsensor_thread_client = threading.Thread(target=Sensor.client(self))
+        tempsensor_thread_client = threading.Thread(target=self.client)
         tempsensor_thread_simulator.start()
-        
+        tempsensor_thread_client.start()
         # create and start thread sending temperature to the cloud service
 
         # TODO: END
