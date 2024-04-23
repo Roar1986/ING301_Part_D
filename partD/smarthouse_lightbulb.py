@@ -50,13 +50,13 @@ class Actuator:
         # start thread simulating physical light bulb
         #Starter tråd for simulator og client.
         logging.info("Starter tempsensor_simulator thread")        
-        tempsensor_thread_simulator = Thread(target=self.simulator)   
+        lightbulb_thread_simulator = Thread(target=self.simulator)   
 
         logging.info("Starter tempsensor_client thread")        
-        tempsensor_thread_client = Thread(target=self.client)     
+        lightbulb_thread_client = Thread(target=self.client)     
         
-        tempsensor_thread_simulator.start()        
-        tempsensor_thread_client.start()
+        lightbulb_thread_simulator.start()        
+        lightbulb_thread_client.start()
         # start thread receiving state from the cloud
 
         # TODO: END
