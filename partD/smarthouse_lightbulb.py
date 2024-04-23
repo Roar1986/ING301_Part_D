@@ -29,9 +29,18 @@ class Actuator:
             self.lock.acquire() #Låser koden
             logging.info(f"Actuator Client {self.did} starting")
 
-            # TODO: START
-            #Skal intragere med skytenesten    
-        
+            Geturl = f"http://127.0.0.1:8000/smarthouse/actuator/{self.did}/current"
+            
+            response = requests.get(Geturl)
+
+            # Går gjennom respons og gjer den om til ei ordliste
+            data = response.json()
+            print(f"HTTP Status code: {data.status_code}\n Repsons Body : {data.text}")
+
+            # Henter ut verdiar som ligg i ordlista med nøkkelen 'state'
+            sensor_value = str(data['state'])
+
+            self.state = sensor_value
 
             logging.info(f"Client {self.did} finishing")
             self.lock.release() #Låser opp koden   
