@@ -15,6 +15,8 @@ class Sensor:
     def __init__(self, did):
         self.did = did
         self.measurement = SensorMeasurement('0.0')
+        self.lock = threading.Lock()
+
 
     def simulator(self):
 
@@ -40,7 +42,7 @@ class Sensor:
 
             timestamp = datetime.now().isoformat() # Leser av aktuell tid
             value = self.measurement.get_temperature()  # Genererer ein temeratur
-            unit = "%" # Oppdaterer unit
+            unit = "C" # Oppdaterer unit
             
             # Dataformat til post
             data = {
@@ -69,11 +71,13 @@ class Sensor:
         # Lage løkke som kontinuerlig oppdaterer temperaturen til skytenesten.
         logging.info("Starter tempsensor_simulator thread")
         tempsensor_thread_simulator = threading.Thread(target=self.simulator)
+
         logging.info("Starter tempsensor_client thread")
         tempsensor_thread_client = threading.Thread(target=self.client)
+
         tempsensor_thread_simulator.start()
         tempsensor_thread_client.start()
-        # create and start thread sending temperature to the cloud service
+        
 
         # TODO: END
 

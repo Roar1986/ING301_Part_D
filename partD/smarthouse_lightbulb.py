@@ -2,6 +2,7 @@ import logging
 import threading
 import time
 import requests
+import threading
 from threading import Thread
 
 from messaging import ActuatorState
@@ -13,7 +14,6 @@ class Actuator:
     def __init__(self, did):
         self.did = did
         self.state = ActuatorState('False')
-        self.lock = threading.Lock()
 
     def simulator(self):
 
