@@ -38,10 +38,10 @@ class Sensor:
         
         while True:
             #Simulerer clientkode med print, er locka mot simulator for å forhindre at den måler og sender samtidig.
-            self.lock.acquire()
-            
+            self.lock.acquire()            
             print(f"SensorMeasurement sent to klient {self.measurement.get_temperature()}") # Her skal koden vere.
             self.lock.release()
+
             time.sleep(common.TEMPERATURE_SENSOR_CLIENT_SLEEP_TIME)
 
         logging.info(f"Client {self.did} finishing")
@@ -49,8 +49,7 @@ class Sensor:
         # TODO: END
 
     def run(self):
-        # create and start thread simulating physical temperature sensor        
-        
+        # create and start thread simulating physical temperature sensor 
         #Starter tråd for simulator og client.
         logging.info("Starter tempsensor_simulator thread")
         tempsensor_thread_simulator = Thread(target=self.simulator)   
@@ -60,7 +59,6 @@ class Sensor:
         
         tempsensor_thread_simulator.start()
         tempsensor_thread_client.start()
-
         # create and start thread sending temperature to the cloud service
         
         # TODO: END
