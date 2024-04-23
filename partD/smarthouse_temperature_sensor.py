@@ -8,6 +8,7 @@ from messaging import SensorMeasurement
 import common
 
 
+
 class Sensor:
 
     def __init__(self, did):
@@ -45,12 +46,13 @@ class Sensor:
 
         # create and start thread simulating physical temperature sensor
 
-        # Lage løkke som simulerer temperatursensoren og
-        #kode
+        # Lage løkke som simulerer temperatursensoren og        
         # Lage løkke som kontinuerlig oppdaterer temperaturen til skytenesten.
-        logging.info("Starter tempsensor thread")
-        #tempsensor_thread = threading.Thread()
-        #tempsensor_thread.start()
+        logging.info("Starter tempsensor_simulator thread")
+        tempsensor_thread_simulator = threading.Thread(target=Sensor.simulator(self))
+        logging.info("Starter tempsensor_client thread")
+        tempsensor_thread_client = threading.Thread(target=Sensor.client(self))
+        tempsensor_thread_simulator.start()
         
         # create and start thread sending temperature to the cloud service
 
