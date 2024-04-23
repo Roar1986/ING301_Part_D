@@ -14,6 +14,7 @@ class Actuator:
     def __init__(self, did):
         self.did = did
         self.state = ActuatorState('False')
+        self.lock = threading.Lock()
 
     def simulator(self):
 
@@ -21,7 +22,7 @@ class Actuator:
 
         while True:
             self.lock.acquire() #Låser koden
-            logging.info(f"Actuator {self.did}: {self.state.state}")
+            logging.info(f"Actuator State: {self.did}: {self.state.state}")
             self.lock.release() #Låser opp koden   
             time.sleep(common.LIGHTBULB_SIMULATOR_SLEEP_TIME)
 
@@ -29,7 +30,7 @@ class Actuator:
 
         while True:
             self.lock.acquire() #Låser koden
-            logging.info(f"Actuator Client {self.did} starting") # Logg tekst til terminal
+            logging.info(f"Actuator Client METODE : {self.did} starting") # Logg tekst til terminal
             
             # Url til smarthouse, der ein finn aktuell actuator state
             Geturl = f"http://127.0.0.1:8000/smarthouse/actuator/{self.did}/current"
@@ -45,17 +46,14 @@ class Actuator:
             
             # Oppdaterer staten, slik at client metoden kan hente den siste oppdaterete aktuator status
             self.state = ActuatorState(sensor_value)
-            print(f"New State Value: {self.state.state}")
 
-            logging.info(f"Client {self.did} finishing")
-            
-            time.sleep(common.LIGHTBULB_CLIENT_SLEEP_TIME) # Sovetid for tråden.
+            logging.info(f"Actuator Client METODE {self.did} finishing")
             self.lock.release() #Låser opp koden   
 
-    def run(self):
+            time.sleep(common.LIGHTBULB_CLIENT_SLEEP_TIME) # Sovetid for tråden.
+            
 
-        pass
-        # TODO: START
+    def run(self):
 
         # start thread simulating physical light bulb
         #Starter tråd for simulator og client.
@@ -68,7 +66,5 @@ class Actuator:
         lightbulb_thread_simulator.start()        
         lightbulb_thread_client.start()
         # start thread receiving state from the cloud
-
-        # TODO: END
 
 

@@ -23,20 +23,23 @@ class Sensor:
         logging.info(f"Sensor {self.did} starting")
 
         while True:
-
+            self.lock.acquire()
             temp = round(math.sin(time.time() / 10) * common.TEMP_RANGE, 1)
 
-            logging.info(f"Sensor {self.did}: {temp}")
+            logging.info(f"Sensor Ny Verdi: {self.did}: {temp}")
             self.measurement.set_temperature(str(temp))
+            self.lock.release()
 
             time.sleep(common.TEMPERATURE_SENSOR_SIMULATOR_SLEEP_TIME)
 
     def client(self):
 
-        logging.info(f"Sensor Client {self.did} starting")
+        logging.info(f"Sensor Client: {self.did} starting")
        
         while True:
-            
+            self.lock.acquire()
+            logging.info(f"Sensor Client Metode: {self.did} Running")
+
             # Url der sensor verdi skal oppdaterast
             PostUrl = f"http://127.0.0.1:8000/smarthouse/sensor/{self.did}/current"
 
@@ -54,11 +57,12 @@ class Sensor:
             # Sender request til webserver
             UpdateTemp = requests.post(PostUrl, json=data)
 
-            print(f"HTTP Status code: {UpdateTemp.status_code}\n Repsons Body : {UpdateTemp.text}")
-            
+            logging.info(f"Sensor Oppdatert Verdi Respons fra webserver: {UpdateTemp.text}")
+            self.lock.release()
+
             time.sleep(common.TEMPERATURE_SENSOR_SIMULATOR_SLEEP_TIME)
             
-            logging.info(f"Client {self.did} finishing")
+            logging.info(f"Sensor Client Metode {self.did} finishing")
 
     def run(self):
 
