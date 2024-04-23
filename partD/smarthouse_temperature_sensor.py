@@ -37,13 +37,13 @@ class Sensor:
         logging.info(f"Sensor Client {self.did} starting")
        
         while True:
-            
+            self.lock.acquire() #Låser koden
             # Url der sensor verdi skal oppdaterast
             PostUrl = f"http://127.0.0.1:8000/smarthouse/sensor/{self.did}/current"
 
             timestamp = datetime.now().isoformat() # Leser av aktuell tid
             value = self.measurement.get_temperature()  # Genererer ein temeratur
-            unit = "%" # Oppdaterer unit
+            unit = "C" # Oppdaterer unit
             
             # Dataformat til post
             data = {
@@ -57,6 +57,7 @@ class Sensor:
 
             print(f"HTTP Status code: {UpdateTemp.status_code}\n Repsons Body : {UpdateTemp.text}")
             
+            self.lock.release() #Låser opp koden  
             time.sleep(common.TEMPERATURE_SENSOR_SIMULATOR_SLEEP_TIME)
             
             logging.info(f"Client {self.did} finishing")
@@ -64,16 +65,13 @@ class Sensor:
     def run(self):
         # create and start thread simulating physical temperature sensor 
         #Starter tråd for simulator og client.
-        logging.info("Starter tempsensor_simulator thread")
-        tempsensor_thread_simulator = threading.Thread(target=self.simulator)
+        logging.info("Starter tempsensor_simulator thread")        
         tempsensor_thread_simulator = Thread(target=self.simulator)   
 
-        logging.info("Starter tempsensor_client thread")
-        tempsensor_thread_client = threading.Thread(target=self.client)
+        logging.info("Starter tempsensor_client thread")        
         tempsensor_thread_client = Thread(target=self.client)     
         
-        tempsensor_thread_simulator.start()
-        tempsensor_thread_client.start()
+        tempsensor_thread_simulator.start()        
         tempsensor_thread_client.start()
         # create and start thread sending temperature to the cloud service
         
