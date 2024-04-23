@@ -21,26 +21,26 @@ class Actuator:
         logging.info(f"Actuator {self.did} starting")
 
         while True:
-
+            self.lock.acquire() #Låser koden
             logging.info(f"Actuator {self.did}: {self.state.state}")
-
+            self.lock.release() #Låser opp koden   
             time.sleep(common.LIGHTBULB_SIMULATOR_SLEEP_TIME)
 
     def client(self):
 
-        logging.info(f"Actuator Client {self.did} starting")
+        while True:
+            self.lock.acquire() #Låser koden
+            logging.info(f"Actuator Client {self.did} starting")
 
-        # TODO: START
-        #Skal intragere med skytenesten
+            # TODO: START
+            #Skal intragere med skytenesten    
         
 
+            logging.info(f"Client {self.did} finishing")
+            self.lock.release() #Låser opp koden   
+            time.sleep(common.LIGHTBULB_CLIENT_SLEEP_TIME)
 
-        # send request to cloud service with regular intervals and
-        # set state of actuator according to the received response
-
-        logging.info(f"Client {self.did} finishing")
-
-        # TODO: END
+            # TODO: END
 
     def run(self):
 
@@ -49,10 +49,10 @@ class Actuator:
 
         # start thread simulating physical light bulb
         #Starter tråd for simulator og client.
-        logging.info("Starter tempsensor_simulator thread")        
+        logging.info("Starter lightbulb_simulator thread")        
         lightbulb_thread_simulator = Thread(target=self.simulator)   
 
-        logging.info("Starter tempsensor_client thread")        
+        logging.info("Starter lightbulb_client thread")        
         lightbulb_thread_client = Thread(target=self.client)     
         
         lightbulb_thread_simulator.start()        
